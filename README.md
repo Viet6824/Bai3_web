@@ -60,4 +60,12 @@ CÁCH ĐÁNH GIÁ:
 1. Mở controlpanel vào bật hoặc tắt tính năng windows
 2. chọn hyper-v
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/477e70c7-f784-496d-a5cb-8931dfa2492f" />
-
+#### Bước 2
+1. Mở Hyper-V Manager (tìm trong Start).
+2. Tạo máy ảo mới:
+- Name: Ubuntu-IoT
+- Generation: Generation 2
+- Memory: 4096 MB (dynamic)
+- Network: Chọn Default Switch (NAT + Internet)
+- Hard Disk: Tạo VHDX mới (~30GB)
+- Installation Options: Chọn file ISO Ubuntu 22.04 LTS (tải tại: https://ubuntu.com/download/server)
