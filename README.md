@@ -56,16 +56,154 @@ CÁCH ĐÁNH GIÁ:
 ---
 ## Bài làm
 ### 1. Cài đặt môi trường
-#### Bước 1 Kích hoạt Hyper-V 
-1. Mở controlpanel vào bật hoặc tắt tính năng windows
-2. chọn hyper-v
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/477e70c7-f784-496d-a5cb-8931dfa2492f" />
-#### Bước 2
-1. Mở Hyper-V Manager (tìm trong Start).
-2. Tạo máy ảo mới:
-- Name: Ubuntu-IoT
-- Generation: Generation 2
-- Memory: 4096 MB (dynamic)
-- Network: Chọn Default Switch (NAT + Internet)
-- Hard Disk: Tạo VHDX mới (~30GB)
-- Installation Options: Chọn file ISO Ubuntu 22.04 LTS (tải tại: https://ubuntu.com/download/server)
+Bước 1: Kích hoạt WSL và cài đặt Ubuntu
+1. Mở powershell  (Run as Administrator) chạy: wsl --install -d Ubuntu
+<img width="1920" height="1080" alt="Ảnh chụp màn hình (553)" src="https://github.com/user-attachments/assets/b817ec57-bf9d-4245-a765-73a74e0f935e" />
+2. Sau khi cài xong khởi động lại máy
+3. Mở ứng dụng Ubuntu, thiết lập username và password:
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/62e58905-9502-49cb-8324-5e1ca803f1d4" 
+4. Cập nhật hệ thống : sudo apt update && sudo apt upgrade -y
+5. Cài thêm tool cơ bản: sudo apt install curl wget -y
+6. Kiểm tra Ubuntu: lsb_release -a
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e53d8335-cbda-4d55-b01e-5a6cd304fa26" />
+Bước 2: Cài đặt Docker & Docker Compose
+1. Trong Ubuntu, chạy lệnh:
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+2. Thêm user vào group để chạy docker không cần sudo :sudo usermod -aG docker $USER
+3. Áp dụng thay đổi: sudo reboot
+4. Test thử: docker run hello-world
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/54a86b32-7527-476c-8fe6-a5960b4abd03" />
+5. Thêm repo docker: sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose  
+<img width="1915" height="224" alt="Ảnh chụp màn hình 2025-11-05 232028" src="https://github.com/user-attachments/assets/c5b1bed3-9e7b-4c07-8970-302beb933b9c" />
+6. Thay đổi quyền thực thi cho file: sudo chmod +x /usr/local/bin/docker-compose
+7. Kiểm tra Docker: docker compose version
+Bước 3: Cấu hình Docker Compose
+1. Tạo thư mục và chuyển đến nó
+mkdir webapplinux
+cd webapplinux
+2. Tạo file nano docker-compose.yml:
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:10.11
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: shopviet
+      MYSQL_USER: viet
+      MYSQL_PASSWORD: 123456
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mariadb/data:/var/lib/mysql
+    networks:
+      - ecommerce-network
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "8080:80"
+    depends_on:
+      - mariadb
+    networks:
+      - ecommerce-network
+
+  nodered:
+    image: nodered/node-red:latest
+    container_name: nodered
+    restart: always
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./node-red/data:/data
+    user: "1000:1000"
+    depends_on:
+      - mariadb
+      - influxdb
+    networks:
+      - ecommerce-network
+    command: >
+      sh -c "
+      npm install -g node-red-node-mysql &&
+      node-red
+      --httpNodeRoot=/api
+      --httpAdminRoot=/nodered
+      --functionGlobalContext.mysql=require('mysql').createPool({host:'mariadb',user:'viet',password:'123456',database:'shopviet',port:3306,charset:'utf8mb4',connectionLimit:10})
+      --functionGlobalContext.crypto=require('crypto')
+      "
+
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    restart: always
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=admin123
+      - DOCKER_INFLUXDB_INIT_ORG=ecommerce
+      - DOCKER_INFLUXDB_INIT_BUCKET=statistics
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-super-secret-auth-token
+    ports:
+      - "8086:8086"
+    volumes:
+      - ./influxdb/data:/var/lib/influxdb2
+    networks:
+      - ecommerce-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    environment:
+      - GF_SERVER_HTTP_PORT=3000
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+    depends_on:
+      - influxdb
+    networks:
+      - ecommerce-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+      - ./web:/usr/share/nginx/html:ro
+    depends_on:
+      - nodered
+      - grafana
+    networks:
+      - ecommerce-network
+
+networks:
+  ecommerce-network:
+    driver: bridge
+Sau khi mọi thứ đã ổn, sẽ thấy các container chạy:
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5e864219-b2e6-478c-8ac0-b3f3fed06ab9" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/2acfa0b1-d2d7-4310-b28e-4e3fc7faaf20" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/cee40677-0999-4ae8-8ccf-d0be015db90e" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/8271f571-4d89-4fb6-8b75-5bf1956934a2" />
