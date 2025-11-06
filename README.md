@@ -57,38 +57,7 @@ CÁCH ĐÁNH GIÁ:
 ## Bài làm
 ### 1. Cài đặt môi trường
 Bước 1: Kích hoạt WSL và cài đặt Ubuntu
-1. Mở powershell  (Run as Administrator) chạy: wsl --install -d Ubuntu
-<img width="1920" height="1080" alt="Ảnh chụp màn hình (553)" src="https://github.com/user-attachments/assets/b817ec57-bf9d-4245-a765-73a74e0f935e" />
-2. Sau khi cài xong khởi động lại máy
-3. Mở ứng dụng Ubuntu, thiết lập username và password:
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/62e58905-9502-49cb-8324-5e1ca803f1d4" 
-4. Cập nhật hệ thống : sudo apt update && sudo apt upgrade -y
-5. Cài thêm tool cơ bản: sudo apt install curl wget -y
-6. Kiểm tra Ubuntu: lsb_release -a
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e53d8335-cbda-4d55-b01e-5a6cd304fa26" />
-
-### Bước 2: Cài đặt Docker & Docker Compose  
-1. Trong Ubuntu, chạy lệnh:  
-curl -fsSL https://get.docker.com -o get-docker.sh  
-sudo sh get-docker.sh  
-2. Thêm user vào group để chạy docker không cần sudo :sudo usermod -aG docker $USER  
-3. Áp dụng thay đổi: sudo reboot  
-4. Test thử: docker run hello-world
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/54a86b32-7527-476c-8fe6-a5960b4abd03" />
-
-6. Thêm repo docker: sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-
-<img width="1915" height="224" alt="Ảnh chụp màn hình 2025-11-05 232028" src="https://github.com/user-attachments/assets/c5b1bed3-9e7b-4c07-8970-302beb933b9c" />
-
-8. Thay đổi quyền thực thi cho file: sudo chmod +x /usr/local/bin/docker-compose  
-9. Kiểm tra Docker: docker compose version  
-### Bước 3: Cấu hình Docker Compose
-1. Tạo thư mục và chuyển đến nó
-```
-mkdir webapplinux
-cd 
+1. Mở powershell  (Run as Administrator) vietlinux
 ```
 3. Tạo file nano docker-compose.yml:
 ```
