@@ -275,10 +275,12 @@ server {
     # === 404 Fallback cho SPA ===
     error_page 404 /index.html;
 }
-```
+
 Kết quả
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/82b12a26-4677-41f4-852a-f5a4f5035c14" />
+
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/adbb45b1-f088-47a8-8690-5dfb3b94998d" />
+
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c79231fe-bfe9-4e1f-b809-9d19cb1b7ad9" />
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ade780aa-205b-4df3-95ba-7859cc4e9436" />
