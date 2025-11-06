@@ -56,7 +56,7 @@ CÁCH ĐÁNH GIÁ:
 ---
 ## Bài làm
 ### 1. Cài đặt môi trường
-Bước 1: Kích hoạt WSL và cài đặt Ubuntu
+#### Bước 1: Kích hoạt WSL và cài đặt Ubuntu  
 1. Mở powershell  (Run as Administrator)
 
 <img width="1920" height="1080" alt="Ảnh chụp màn hình (553)" src="https://github.com/user-attachments/assets/33b64a34-10d4-4f6f-8e75-c7304095eb97" />
@@ -72,10 +72,10 @@ Bước 1: Kích hoạt WSL và cài đặt Ubuntu
 
 <img width="1920" height="1080" alt="Ảnh chụp màn hình (561)" src="https://github.com/user-attachments/assets/3c84528c-922f-4756-a81b-26efb86e677f" />
 
-Bước 2: Cài đặt Docker & Docker Compose
+#### Bước 2: Cài đặt Docker & Docker Compose
 1. Trong Ubuntu, chạy lệnh:
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
+curl -fsSL https://get.docker.com -o get-docker.sh   
+sudo sh get-docker.sh  
 2. Thêm user vào group để chạy docker không cần sudo :sudo usermod -aG docker $USER
 3. Áp dụng thay đổi: sudo reboot
 4. Test thử: docker run hello-world
@@ -88,7 +88,8 @@ sudo sh get-docker.sh
 
 6. Thay đổi quyền thực thi cho file: sudo chmod +x /usr/local/bin/docker-compose
 7. Kiểm tra Docker: docker compose version
-Bước 3: Cấu hình Docker Compose
+
+#### Bước 3: Cấu hình Docker Compose
 1. Tạo thư mục và chuyển đến nó
 mkdir webapplinux
 cd webapplinux
@@ -220,7 +221,7 @@ Sau khi mọi thứ đã ổn, sẽ thấy các container chạy:
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/8271f571-4d89-4fb6-8b75-5bf1956934a2" />
 
-### 3. CẤU HÌNH NGINX
+### 22. CẤU HÌNH NGINX
 1. Chạy lệnh: nano ~/vietlinux/nginx/conf.d/default.conf trong Ubuntu  
 2. Nội dung file default.conf:  
 ```
