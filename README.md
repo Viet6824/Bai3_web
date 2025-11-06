@@ -92,7 +92,7 @@ Bước 3: Cấu hình Docker Compose
 1. Tạo thư mục và chuyển đến nó
 mkdir webapplinux
 cd webapplinux
-22. Tạo file nano docker-compose.yml:
+2. Tạo file nano docker-compose.yml:
 ```
 version: '3.8'
 
