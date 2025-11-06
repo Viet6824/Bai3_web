@@ -57,9 +57,42 @@ CÁCH ĐÁNH GIÁ:
 ## Bài làm
 ### 1. Cài đặt môi trường
 Bước 1: Kích hoạt WSL và cài đặt Ubuntu
-1. Mở powershell  (Run as Administrator) vietlinux
-```
-3. Tạo file nano docker-compose.yml:
+1. Mở powershell  (Run as Administrator)
+
+<img width="1920" height="1080" alt="Ảnh chụp màn hình (553)" src="https://github.com/user-attachments/assets/33b64a34-10d4-4f6f-8e75-c7304095eb97" />
+
+2. Sau khi cài xong khởi động lại máy
+3. Mở ứng dụng Ubuntu, thiết lập username và password:
+
+<img width="1920" height="1080" alt="Ảnh chụp màn hình (560)" src="https://github.com/user-attachments/assets/b5655527-e71b-4e59-919a-f73ee1d84ebe" />
+
+4. Cập nhật hệ thống : sudo apt update && sudo apt upgrade -y
+5. Cài thêm tool cơ bản: sudo apt install curl wget -y
+6. Kiểm tra Ubuntu: lsb_release -a
+
+<img width="1920" height="1080" alt="Ảnh chụp màn hình (561)" src="https://github.com/user-attachments/assets/3c84528c-922f-4756-a81b-26efb86e677f" />
+
+Bước 2: Cài đặt Docker & Docker Compose
+1. Trong Ubuntu, chạy lệnh:
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+2. Thêm user vào group để chạy docker không cần sudo :sudo usermod -aG docker $USER
+3. Áp dụng thay đổi: sudo reboot
+4. Test thử: docker run hello-world
+
+<img width="1920" height="1080" alt="Ảnh chụp màn hình (577)" src="https://github.com/user-attachments/assets/cf486e60-e03c-419e-895e-e023e10b8f90" />
+
+5. Thêm repo docker: sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+<img width="1915" height="224" alt="Ảnh chụp màn hình 2025-11-05 232028" src="https://github.com/user-attachments/assets/d3493bc1-2a19-44a7-9ae3-4f72085dc7fc" />
+
+6. Thay đổi quyền thực thi cho file: sudo chmod +x /usr/local/bin/docker-compose
+7. Kiểm tra Docker: docker compose version
+Bước 3: Cấu hình Docker Compose
+1. Tạo thư mục và chuyển đến nó
+mkdir webapplinux
+cd webapplinux
+22. Tạo file nano docker-compose.yml:
 ```
 version: '3.8'
 
@@ -275,7 +308,7 @@ server {
     # === 404 Fallback cho SPA ===
     error_page 404 /index.html;
 }
-
+```
 Kết quả
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/82b12a26-4677-41f4-852a-f5a4f5035c14" />
@@ -283,4 +316,5 @@ Kết quả
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/adbb45b1-f088-47a8-8690-5dfb3b94998d" />
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c79231fe-bfe9-4e1f-b809-9d19cb1b7ad9" />
+
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ade780aa-205b-4df3-95ba-7859cc4e9436" />
