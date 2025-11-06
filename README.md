@@ -65,24 +65,33 @@ Bước 1: Kích hoạt WSL và cài đặt Ubuntu
 4. Cập nhật hệ thống : sudo apt update && sudo apt upgrade -y
 5. Cài thêm tool cơ bản: sudo apt install curl wget -y
 6. Kiểm tra Ubuntu: lsb_release -a
+
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e53d8335-cbda-4d55-b01e-5a6cd304fa26" />
-Bước 2: Cài đặt Docker & Docker Compose
-1. Trong Ubuntu, chạy lệnh:
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-2. Thêm user vào group để chạy docker không cần sudo :sudo usermod -aG docker $USER
-3. Áp dụng thay đổi: sudo reboot
+
+### Bước 2: Cài đặt Docker & Docker Compose  
+1. Trong Ubuntu, chạy lệnh:  
+curl -fsSL https://get.docker.com -o get-docker.sh  
+sudo sh get-docker.sh  
+2. Thêm user vào group để chạy docker không cần sudo :sudo usermod -aG docker $USER  
+3. Áp dụng thay đổi: sudo reboot  
 4. Test thử: docker run hello-world
+
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/54a86b32-7527-476c-8fe6-a5960b4abd03" />
-5. Thêm repo docker: sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose  
+
+6. Thêm repo docker: sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
 <img width="1915" height="224" alt="Ảnh chụp màn hình 2025-11-05 232028" src="https://github.com/user-attachments/assets/c5b1bed3-9e7b-4c07-8970-302beb933b9c" />
-6. Thay đổi quyền thực thi cho file: sudo chmod +x /usr/local/bin/docker-compose
-7. Kiểm tra Docker: docker compose version
-Bước 3: Cấu hình Docker Compose
+
+8. Thay đổi quyền thực thi cho file: sudo chmod +x /usr/local/bin/docker-compose  
+9. Kiểm tra Docker: docker compose version  
+### Bước 3: Cấu hình Docker Compose
 1. Tạo thư mục và chuyển đến nó
+```
 mkdir webapplinux
-cd webapplinux
-2. Tạo file nano docker-compose.yml:
+cd 
+```
+3. Tạo file nano docker-compose.yml:
+```
 version: '3.8'
 
 services:
@@ -199,6 +208,7 @@ services:
 networks:
   ecommerce-network:
     driver: bridge
+```
 Sau khi mọi thứ đã ổn, sẽ thấy các container chạy:
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5e864219-b2e6-478c-8ac0-b3f3fed06ab9" />
 
@@ -207,9 +217,11 @@ Sau khi mọi thứ đã ổn, sẽ thấy các container chạy:
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/cee40677-0999-4ae8-8ccf-d0be015db90e" />
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/8271f571-4d89-4fb6-8b75-5bf1956934a2" />
-3. CẤU HÌNH NGINX
-1. Chạy lệnh: nano ~/webapplinux/nginx/conf.d/default.conf trong Ubuntu
-2. Nội dung file default.conf:
+
+### 3. CẤU HÌNH NGINX
+1. Chạy lệnh: nano ~/vietlinux/nginx/conf.d/default.conf trong Ubuntu  
+2. Nội dung file default.conf:  
+```
 server {
     listen 80;
     server_name nguyenducviet.com www.nguyenducviet.com;
@@ -294,3 +306,10 @@ server {
     # === 404 Fallback cho SPA ===
     error_page 404 /index.html;
 }
+```
+Kết quả
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/82b12a26-4677-41f4-852a-f5a4f5035c14" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/adbb45b1-f088-47a8-8690-5dfb3b94998d" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c79231fe-bfe9-4e1f-b809-9d19cb1b7ad9" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ade780aa-205b-4df3-95ba-7859cc4e9436" />
