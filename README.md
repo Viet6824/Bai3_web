@@ -212,7 +212,7 @@ networks:
 Sau khi mọi thứ đã ổn, sẽ thấy các container chạy:
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5e864219-b2e6-478c-8ac0-b3f3fed06ab9" />
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/2acfa0b1-d2d7-4310-b28e-4e3fc7faaf20" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/004ece1f-5311-4d8f-a02c-d1f80a50187d" />
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/cee40677-0999-4ae8-8ccf-d0be015db90e" />
 
